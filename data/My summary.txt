@@ -1,0 +1,35 @@
+Independent-Samples t-test
+Compares means of two independent groups (example: Cheese vs. Pepperoni eating time).
+Assumptions: interval or ratio dependent variable, random samples, normal distribution, equal variances.
+Check normality with histograms; test equal variances with Levene’s test.
+Use t.test() with var.equal = TRUE or FALSE depending on variance test.
+If p < 0.05 then reject null (groups differ).
+Effect size: Cohen’s d (0.2 small, 0.5 medium, 0.8 or more large).
+Power analysis: use pwr.t.test, 80 percent power is acceptable.
+
+Mann-Whitney U test
+Used when data are not normally distributed.
+Compares medians instead of means.
+Assumes groups have similarly shaped distributions.
+Null hypothesis: group medians are equal.
+Effect size: rank-biserial correlation r (0.1 small, 0.3 medium, 0.5 large).
+Sample size can be calculated with pwr.2p2n.test.
+Use wilcox.test() to run the test; rank\_biserial() gives effect size.
+Less powerful than t-test but valid for non-normal data.
+
+Chi-Square test of independence
+Tests whether two categorical variables are related (example: topping type and willingness to eat again).
+Works with frequency tables; null hypothesis means variables are independent.
+Requires large sample sizes, about 1000 or more, and at least 5 observations per cell.
+Effect size: Cramer’s V (w) (0.1 small, 0.3 medium, 0.5 large).
+Sample size and power analysis with pwr.chisq.test.
+Shows association but not causation.
+
+Fisher’s Exact test
+Alternative to Chi-square for small samples or when more than 20 percent of cells have expected counts below 5.
+Most often used for 2 by 2 tables; gives exact p-values.
+Null hypothesis: no relationship between variables.
+Effect size: odds ratio (1.5 small, 2.5 medium, 4 large).
+Use fisher.test() to run the test.
+Power analysis with pwr.2p.test.
+More reliable for small or unbalanced datasets.
