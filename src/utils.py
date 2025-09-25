@@ -88,14 +88,29 @@ def find_relevant_courses(query: str, course_metadata: pd.DataFrame, top_k: int 
             if any(word in course.get('title', '').lower() for word in query_lower.split() if len(word) > 3):
                 score += 2
                 
-            if score > 0:
+            # Ensure difficulty is properly formatted
+            difficulty_raw = course.get('difficulty_level', 'Unknown')
+            difficulty_clean = str(difficulty_raw).strip()
+            
+            # Map numeric difficulty to descriptive text
+            if difficulty_clean in ['1', '1.0']:
+                difficulty_display = 'Beginner'
+            elif difficulty_clean in ['2', '2.0']:
+                difficulty_display = 'Intermediate' 
+            elif difficulty_clean in ['3', '3.0']:
+                difficulty_display = 'Advanced'
+            else:
+                difficulty_display = difficulty_clean
+            
+            if score > 0:  # Only if course is relevant
                 relevant_courses.append({
                     'course': course,
                     'score': score,
                     'title': course.get('title', 'Unknown Course'),
                     'link': course.get('link', '#'),
                     'language': course.get('programming_language', 'Unknown'),
-                    'difficulty': course.get('difficulty_level', 'Unknown'),
+                    'difficulty': difficulty_clean,  
+                    'difficulty_display': difficulty_display,  # For display
                     'description': course.get('short_description', '')[:200] + '...' if len(course.get('short_description', '')) > 200 else course.get('short_description', ''),
                     'content_area': course.get('content_area', 'Unknown')
                 })
@@ -109,19 +124,53 @@ def find_relevant_courses(query: str, course_metadata: pd.DataFrame, top_k: int 
         return []
 
 
+
 def format_course_recommendations(courses: List[Dict]) -> str:
-    """Format course recommendations into a readable response"""
+    """Format course recommendations into a readable response with fixed difficulty emoji mapping"""
     if not courses:
         return ""
         
     recommendations = "\n\n**📚 Recommended DataCamp Courses:**\n\n"
     
     for i, course in enumerate(courses, 1):
-        difficulty_emoji = "🟢" if course['difficulty'] == "1" or "beginner" in str(course['difficulty']).lower() else "🟡" if course['difficulty'] == "2" or "intermediate" in str(course['difficulty']).lower() else "🔴"
-        language_emoji = "🐍" if course['language'].lower() == "python" else "📊" if course['language'].lower() == "r" else "🗃️" if course['language'].lower() == "sql" else "💻"
+        # Fixed difficulty emoji mapping
+        difficulty_value = str(course['difficulty']).lower().strip()
+        
+        # Check for numeric values first, then text values
+        if difficulty_value in ['1', '1.0'] or 'beginner' in difficulty_value or 'basic' in difficulty_value:
+            difficulty_emoji = "🟢"
+            difficulty_display = "Beginner"
+        elif difficulty_value in ['2', '2.0'] or 'intermediate' in difficulty_value:
+            difficulty_emoji = "🟡" 
+            difficulty_display = "Intermediate"
+        elif difficulty_value in ['3', '3.0'] or 'advanced' in difficulty_value:
+            difficulty_emoji = "🔴"
+            difficulty_display = "Advanced"
+        else:
+            difficulty_emoji = "⚪"
+            difficulty_display = "Unknown"
+        
+        # Language emoji mapping
+        language_lower = str(course['language']).lower()
+        if 'python' in language_lower:
+            language_emoji = "🐍"
+        elif language_lower in ['r', 'r programming']:
+            language_emoji = "📊"
+        elif 'sql' in language_lower:
+            language_emoji = "🗃️"
+        elif 'scala' in language_lower:
+            language_emoji = "⚡"
+        elif 'shell' in language_lower or 'bash' in language_lower:
+            language_emoji = "💻"
+        elif 'git' in language_lower:
+            language_emoji = "🔀"
+        elif 'spreadsheet' in language_lower:
+            language_emoji = "📈"
+        else:
+            language_emoji = "💻"
         
         recommendations += f"**{i}. {course['title']}**\n"
-        recommendations += f"{language_emoji} {course['language']} • {difficulty_emoji} Level {course['difficulty']} • {course['content_area']}\n"
+        recommendations += f"{language_emoji} {course['language']} • {difficulty_emoji} {difficulty_display} • {course['content_area']}\n"
         recommendations += f"*{course['description']}*\n"
         recommendations += f"🔗 **[Start Course]({course['link']})**\n\n"
     
