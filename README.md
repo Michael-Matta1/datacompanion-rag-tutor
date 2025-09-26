@@ -2,7 +2,7 @@
 
 # Data Companion — RAG Tutor
 
-Meet **Data Companion**, your intelligent RAG (Retrieval-Augmented Generation) tutor powered by advanced memory capabilities and personalized course recommendations. Built with Streamlit, LangChain, and Google Gemini/Hugging Face integration.
+Meet **Data Companion**, your intelligent RAG (Retrieval-Augmented Generation) tutor powered by advanced memory capabilities, personalized course recommendations, and **Pinecone**-powered ingestion. Built with **Streamlit**, **LangChain**, and **Google Gemini**/**Hugging Face** integration
 
 [![Version](https://img.shields.io/badge/version-1.0.5-blue.svg)](https://github.com/Michael-Matta1/datacompanion-rag-tutor/releases)
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
