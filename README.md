@@ -8,6 +8,10 @@ Meet **Data Companion**, your intelligent RAG (Retrieval-Augmented Generation) t
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/Michael-Matta1/datacompanion-rag-tutor/blob/main/LICENSE)
 
+## Demo
+
+[![Short Demo Video](https://img.shields.io/badge/▶%20Short%20Demo%20Video-red?style=for-the-badge)](https://drive.google.com/file/d/1xumU6Y3bpa33xBwWzDdjzZR7gSBGOsxd/view)
+
 ## Table of Contents
 
 - [Features](#features)
